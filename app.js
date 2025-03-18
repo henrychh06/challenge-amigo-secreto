@@ -1,5 +1,5 @@
+// Array para almacenar los nombres de los amigos
 let amigos = [];
-
 
 function agregarAmigo() {
     const inputAmigo = document.getElementById('amigo');
@@ -16,20 +16,14 @@ function agregarAmigo() {
     }
     
     amigos.push(nombreAmigo);
-    
-
     mostrarAmigos();
     
-
     inputAmigo.value = '';
-    
-
     inputAmigo.focus();
 }
 
 function mostrarAmigos() {
     const listaAmigos = document.getElementById('listaAmigos');
-    
     listaAmigos.innerHTML = '';
     
     amigos.forEach((amigo, index) => {
@@ -48,58 +42,30 @@ function mostrarAmigos() {
     });
 }
 
-
 function eliminarAmigo(index) {
     amigos.splice(index, 1);
-    
     mostrarAmigos();
-    
     document.getElementById('resultado').innerHTML = '';
 }
 
-
 function sortearAmigo() {
-    if (amigos.length < 3) {
-        alert('Debes agregar al menos 3 amigos para realizar el sorteo');
+    if (amigos.length < 1) {
+        alert('Debes agregar al menos un amigo para realizar el sorteo');
         return;
     }
     
-    const amigosOrdenados = [...amigos];
-    const resultado = [];
-    
-    for (let i = amigosOrdenados.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [amigosOrdenados[i], amigosOrdenados[j]] = [amigosOrdenados[j], amigosOrdenados[i]];
-    }
-    
-    for (let i = 0; i < amigos.length; i++) {
-        const amigo = amigos[i];
-        const amigoSecreto = amigosOrdenados[(i + 1) % amigosOrdenados.length];
-        
-        if (amigo === amigoSecreto) {r
-            return sortearAmigo();
-        }
-        
-        resultado.push({
-            amigo: amigo,
-            amigoSecreto: amigoSecreto
-        });
-    }
-    
-    mostrarResultado(resultado);
+    const indiceAleatorio = Math.floor(Math.random() * amigos.length);
+    const amigoSeleccionado = amigos[indiceAleatorio];
+    mostrarResultado(amigoSeleccionado);
 }
 
-
-function mostrarResultado(resultado) {
+function mostrarResultado(amigoSeleccionado) {
     const listaResultado = document.getElementById('resultado');
-    
     listaResultado.innerHTML = '';
     
-    resultado.forEach(par => {
-        const li = document.createElement('li');
-        li.textContent = `${par.amigo} → ${par.amigoSecreto}`;
-        listaResultado.appendChild(li);
-    });
+    const li = document.createElement('li');
+    li.textContent = `El amigo secreto sorteado es: ${amigoSeleccionado}`;
+    listaResultado.appendChild(li);
 }
 
 document.getElementById('amigo').addEventListener('keypress', function(event) {
